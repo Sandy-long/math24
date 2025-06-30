@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味数学 - 整除理论、质数与因数</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #16a085;
+            margin-top: 20px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .rule {
+            background-color: #f1f9fe;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        .example {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+        }
+        .question {
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 12px 0 5px 0;
+        }
+        .answer {
+            color: #27ae60;
+            margin-left: 20px;
+            padding-left: 10px;
+            border-left: 2px solid #2ecc71;
+        }
+        
+        /* 整除动画 */
+        .divisible-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .number-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 80%;
+        }
+        .number-item {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+        }
+        .highlight {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid #e67e22;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        /* 质数动画 */
+        .prime-animation {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .prime-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            width: 90%;
+        }
+        .grid-item {
+            width: 100%;
+            height: 30px;
+            background-color: #9b59b6;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            border-radius: 3px;
+            position: relative;
+        }
+        .prime-item {
+            background-color: #e74c3c;
+        }
+        .composite-item {
+            background-color: #3498db;
+        }
+        .prime-highlight {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px dashed #f1c40f;
+            border-radius: 3px;
+            animation: primePulse 2s infinite;
+        }
+        
+        /* 因数动画 */
+        .factor-animation {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .factor-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .tree-level {
+            display: flex;
+            margin: 10px 0;
+        }
+        .tree-node {
+            width: 50px;
+            height: 50px;
+            background-color: #2ecc71;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            position: relative;
+        }
+        .tree-line {
+            position: absolute;
+            width: 2px;
+            height: 15px;
+            background-color: #34495e;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .factor-highlight {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px dashed #e67e22;
+            border-radius: 5px;
+            animation: factorPulse 2s infinite;
+        }
+        
+        /* 动画关键帧 */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes primePulse {
+            0%, 100% { transform: scale(1); }
+            150% { transform: scale(1.1); }
+        }
+        @keyframes factorPulse {
+            0%, 100% { border-color: #e67e22; }
+            150% { border-color: #f39c12; }
+        }
+        
+        .math-formula {
+            font-size: 5px;
+            text-align: left;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>趣味数学 - 整除理论、质数与因数</h1>
+
+<div class="section">
+    <h2>整除理论</h2>
+    
+    <h3>1. 整除基本概念</h3>
+    
+    <div class="divisible-animation">
+        <div class="number-box">
+            <div class="number-item">51</div>
+            <div class="number-item">53</div>
+            <div class="number-item">
+                54
+                <div class="highlight"></div>
+            </div>
+            <div class="number-item">55</div>
+            <div class="number-item">10</div>
+            <div class="number-item">
+                15
+                <div class="highlight"></div>
+            </div>
+            <div class="number-item">20</div>
+            <div class="number-item">25</div>
+            <div class="number-item">17</div>
+            <div class="number-item">18</div>
+            <div class="number-item">19</div>
+            <div class="number-item">
+                20
+                <div class="highlight"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="rule">
+        <strong>整除规则：</strong>
+        <ul>
+            <li>被2整除：末位是0、2、4、6、8</li>
+            <li>被3整除：数字和能被3整除</li>
+            <li>被5整除：末位是0或5</li>
+        </ul>
+    </div>
+    
+    <div class="example">
+        <div class="question">判断哪个数能被2整除：51、53、54、55、1011020</div>
+        <div class="answer">54...</div>
+        
+        <div class="question">判断哪个数能被3整除：10、15、20、25、102360</div>
+        <div class="answer">15...</div>
+        
+        <div class="question">判断哪个数能被5整除：17、18、19、20、1005</div>
+        <div class="answer">20...</div>
+    </div>
+    
+    <h3>2. 特殊整除判别法</h3>
+    
+    <div class="divisible-animation">
+        <div class="number-box" style="flex-direction: column; align-items: center;">
+            <div style="display: flex; margin: 5px 0;">
+                <div class="number-item" style="background-color: #e74c3c;">1</div>
+                <div class="number-item" style="background-color: #3498db;">2</div>
+                <div class="number-item" style="background-color: #e74c3c;">3</div>
+                <div class="number-item" style="background-color: #3498db;">4</div>
+                <div class="number-item" style="background-color: #e74c3c;">5</div>
+                <div class="number-item" style="background-color: #3498db;">6</div>
+                <div class="number-item" style="background-color: #e74c3c;">7</div>
+                <div class="number-item" style="background-color: #3498db;">8</div>
+                <div class="number-item" style="background-color: #e74c3c;">9</div>
+            </div>
+            <div style="font-weight: bold; margin-top: 10px;">奇位和 - 偶位和 = (1+3+5+7+9)-(2+4+6+8) = 25-20 = 5</div>
+        </div>
+    </div>
+    
+    <div class="rule">
+        <strong>特殊整除规则：</strong>
+        <ul>
+            <li>被11整除：奇位数字和-偶位数字和=11的倍数</li>
+            <li>被7整除：三位截断法，从右向左每三位一组，奇数位组与偶数位组的差是7的倍数</li>
+        </ul>
+    </div>
+    
+    <div class="example">
+        <div class="question">判断123456789能否被11整除</div>
+        <div class="answer">不能</div>
+        
+        <div class="question">判断101154166能否被7整除</div>
+        <div class="answer">不能</div>
+        
+        <div class="question">有一个 5 位数，它的前两位是 42，后三位是 889。请问：这个数可能是 11 的倍数吗？</div>
+        <div class="answer">不能</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>质数与合数</h2>
+    
+    <h3>1. 质数基本概念</h3>
+    
+    <div class="prime-animation">
+        <div class="prime-grid">
+            <div class="grid-item prime-item">2</div>
+            <div class="grid-item prime-item">3</div>
+            <div class="grid-item composite-item">4</div>
+            <div class="grid-item prime-item">5</div>
+            <div class="grid-item composite-item">6</div>
+            <div class="grid-item prime-item">7</div>
+            <div class="grid-item composite-item">8</div>
+            <div class="grid-item composite-item">9</div>
+            <div class="grid-item composite-item">10</div>
+            <div class="grid-item prime-item">11</div>
+            <div class="grid-item composite-item">12</div>
+            <div class="grid-item prime-item">13</div>
+            <div class="grid-item composite-item">14</div>
+            <div class="grid-item composite-item">15</div>
+            <div class="grid-item composite-item">16</div>
+            <div class="grid-item prime-item">17</div>
+            <div class="grid-item composite-item">18</div>
+            <div class="grid-item prime-item">19</div>
+            <div class="grid-item composite-item">20</div>
+            <div class="grid-item composite-item">21</div>
+            <div class="grid-item composite-item">22</div>
+            <div class="grid-item prime-item">23</div>
+            <div class="grid-item composite-item">24</div>
+            <div class="grid-item composite-item">25</div>
+            <div class="grid-item composite-item">26</div>
+            <div class="grid-item composite-item">27</div>
+            <div class="grid-item composite-item">28</div>
+            <div class="grid-item prime-item">29</div>
+            <div class="grid-item composite-item">30</div>
+            <div class="grid-item prime-item">31</div>
+            <div class="grid-item composite-item">32</div>
+            <div class="grid-item composite-item">33</div>
+            <div class="grid-item composite-item">34</div>
+            <div class="grid-item composite-item">35</div>
+            <div class="grid-item composite-item">36</div>
+            <div class="grid-item prime-item">37</div>
+            <div class="grid-item composite-item">38</div>
+            <div class="grid-item composite-item">39</div>
+            <div class="grid-item composite-item">40</div>
+            <div class="grid-item prime-item">41</div>
+            <div class="grid-item composite-item">42</div>
+            <div class="grid-item prime-item">43</div>
+            <div class="grid-item composite-item">44</div>
+            <div class="grid-item composite-item">45</div>
+            <div class="grid-item composite-item">46</div>
+            <div class="grid-item prime-item">47</div>
+            <div class="grid-item composite-item">48</div>
+            <div class="grid-item composite-item">49</div>
+            <div class="grid-item composite-item">50</div>
+        </div>
+    </div>
+    
+    <div class="rule">
+        <strong>质数性质：</strong>
+        <ul>
+            <li>质数：大于1的自然数，只有1和它本身两个因数</li>
+            <li>最小的质数是2，唯一的偶质数</li>
+        </ul>
+    </div>
+    
+    <div class="example">
+        <div class="question">将 10 拆成两个质数相加，有几种不同组合？</div>
+        <div class="answer">2种</div>
+        
+        <div class="question">把 18 拆成两个质数相加，求这两个质数乘积的最大值。</div>
+        <div class="answer">77</div>
+        
+        <div class="question">将 50 拆成两个质数相加，求：
+这些组合中，哪一组差值最小？乘积最大？</div>
+        <div class="answer">23+27；乘积最大是 141</div>
+    </div>
+    
+    <h3>2. 质因数分解</h3>
+    
+    <div class="factor-animation">
+        <div class="factor-tree">
+            <div class="tree-level">
+                <div class="tree-node">72</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node">8</div>
+                <div class="tree-node">9</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node">2</div>
+                <div class="tree-node">4</div>
+                <div class="tree-node">3</div>
+                <div class="tree-node">3</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node"></div>
+                <div class="tree-node">2</div>
+                <div class="tree-node">2</div>
+                <div class="tree-node"></div>
+                <div class="tree-node"></div>
+                <div class="tree-node"></div>
+            </div>
+            <div class="tree-formula">72 = 2³ × 3²</div>
+        </div>
+    </div>
+    
+    <div class="rule">
+        <strong>质因数分解：</strong>
+        <ul>
+            <li>每个合数都可以表示为质数的乘积</li>
+            <li>质因数分解唯一（不考虑顺序）</li>
+        </ul>
+    </div>
+    
+    <div class="example">
+        <div class="question">对3234进行质因数分解，求最大质因数与第二大质因数的乘积</div>
+        <div class="answer">77</div>
+        
+        <div class="question">对2145进行质因数分解，求所有质因数的和</div>
+        <div class="answer">32</div>
+        
+        <div class="question">对882进行质因数分解，求最大质因数的指数</div>
+        <div class="answer">2</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>因数与倍数</h2>
+    
+    <h3>1. 因数个数公式</h3>
+    
+    <div class="factor-animation">
+        <div class="factor-tree">
+            <div class="tree-level">
+                <div class="tree-node">
+                    24
+                    <div class="factor-highlight"></div>
+                </div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node">2³</div>
+                <div class="tree-node">3¹</div>
+            </div>
+            <div class="tree-formula">因数个数 = (3+1)(1+1) = 8</div>
+            <div class="tree-level" style="margin-top: 10px;">
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">1</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">2</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">3</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">4</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">6</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">8</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">12</div>
+                <div class="tree-node" style="width: 30px; height: 30px; font-size: 12px;">24</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="rule">
+        <strong>因数个数公式：</strong>
+        若n = p₁<sup>a</sup> × p₂<sup>b</sup> × ... × pₖ<sup>z</sup>（p均是质数），则因数个数 = (a+1)(b+1)...(z+1)（乘法原理，每个数上面的指数有本身+1种（0）可能）
+    </div>
+    
+    <div class="example">
+        <div class="question">已知质因数分解式为2⁴×5⁹×7³×11×13，求因数个数</div>
+        <div class="answer">800</div>
+        
+        <div class="question">求480的因数个数</div>
+        <div class="answer">24</div>
+        
+        <div class="question">求360的因数个数</div>
+        <div class="answer">24</div>
+    </div>
+    
+    <h3>2. 公因数与公倍数</h3>
+    
+    <div class="factor-animation">
+        <div class="factor-tree">
+            <div class="tree-level">
+                <div class="tree-node">12</div>
+                <div class="tree-node">30</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node">2²×3</div>
+                <div class="tree-node">2×3×5</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node" style="background-color: #e74c3c; font-size: 10px;">GCD=6</div>
+<div class="tree-node" style="background-color: #3498db; font-size: 10px;">LCM=60</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="rule">
+        <strong>公因数与公倍数：</strong>
+        <ul>
+            <li>最大公因数(GCD)：分解质因数后取各质因数的最小指数</li>
+            <li>最小公倍数(LCM)：分解质因数后取各质因数的最大指数</li>
+        </ul>
+    </div>
+    
+    <div class="example">
+        <div class="question">求18、24、36的最大公因数与12、30的最大公因数之和</div>
+        <div class="answer">12</div>
+        
+        <div class="question">求42、66的最大公因数与20、50、90的最大公因数之积</div>
+        <div class="answer">60</div>
+        
+        <div class="question">求36、84、90的最小公倍数与12、30的最小公倍数之差</div>
+        <div class="answer">1200</div>
+    </div>
+</div>
+</body>
+</html>
