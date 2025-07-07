@@ -59,11 +59,51 @@
             color: #e74c3c;
             margin: 12px 0 5px 0;
         }
+        
+        /* 答案容器样式 */
+        .answer-container {
+            background: linear-gradient(to right, #f0fff4, #e6fffa);
+            border: 1px solid #c8f0dd;
+            border-radius: 8px;
+            padding: 5px 15px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .answer-container:hover {
+            background: linear-gradient(to right, #dcffe4, #c6f6d5);
+            transform: translateX(5px);
+            border-color: #8de0b7;
+        }
+        .answer-prompt {
+            color: #0f9d58;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+        }
+        .answer-prompt::before {
+           
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
         .answer {
-            color: #27ae60;
+            color: #0d864a;
             margin-left: 20px;
-            padding-left: 10px;
-            border-left: 2px solid #2ecc71;
+            padding: 15px;
+            background-color: rgba(16, 185, 129, 0.08);
+            border-left: 3px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            font-weight: bold;
+            animation: fadeIn 0.4s ease;
+        }
+        .show-answer .answer {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         /* 整除动画 */
@@ -121,7 +161,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 极速快30 2px 10px rgba(0,0,0,0.1);
         }
         .prime-grid {
             display: grid;
@@ -276,13 +316,22 @@
     
     <div class="example">
         <div class="question">判断哪个数能被2整除：51、53、54、55、1011020</div>
-        <div class="answer">54...</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">54...</div>
+        </div>
         
         <div class="question">判断哪个数能被3整除：10、15、20、25、102360</div>
-        <div class="answer">15...</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">15...</div>
+        </div>
         
         <div class="question">判断哪个数能被5整除：17、18、19、20、1005</div>
-        <div class="answer">20...</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">20...</div>
+        </div>
     </div>
     
     <h3>2. 特殊整除判别法</h3>
@@ -314,13 +363,22 @@
     
     <div class="example">
         <div class="question">判断123456789能否被11整除</div>
-        <div class="answer">不能</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">不能</div>
+        </div>
         
         <div class="question">判断101154166能否被7整除</div>
-        <div class="answer">不能</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">不能</div>
+        </div>
         
         <div class="question">有一个 5 位数，它的前两位是 42，后三位是 889。请问：这个数可能是 11 的倍数吗？</div>
-        <div class="answer">不能</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">不能</div>
+        </div>
     </div>
 </div>
 
@@ -393,14 +451,23 @@
     
     <div class="example">
         <div class="question">将 10 拆成两个质数相加，有几种不同组合？</div>
-        <div class="answer">2种</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">2种</div>
+        </div>
         
         <div class="question">把 18 拆成两个质数相加，求这两个质数乘积的最大值。</div>
-        <div class="answer">77</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">77</div>
+        </div>
         
         <div class="question">将 50 拆成两个质数相加，求：
 这些组合中，哪一组差值最小？乘积最大？</div>
-        <div class="answer">23+27；乘积最大是 141</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">23+27；乘积最大是 141</极速快3div>
+        </div>
     </div>
     
     <h3>2. 质因数分解</h3>
@@ -411,7 +478,7 @@
                 <div class="tree-node">72</div>
             </div>
             <div class="tree-level">
-                <div class="tree-node">8</div>
+                <div class="极速快3tree-node">8</div>
                 <div class="tree-node">9</div>
             </div>
             <div class="tree-level">
@@ -442,13 +509,22 @@
     
     <div class="example">
         <div class="question">对3234进行质因数分解，求最大质因数与第二大质因数的乘积</div>
-        <div class="answer">77</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">77</div>
+        </div>
         
         <div class="question">对2145进行质因数分解，求所有质因数的和</div>
-        <div class="answer">32</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">32</div>
+        </div>
         
         <div class="question">对882进行质因数分解，求最大质因数的指数</div>
-        <div class="answer">2</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">2</div>
+        </div>
     </div>
 </div>
 
@@ -490,13 +566,22 @@
     
     <div class="example">
         <div class="question">已知质因数分解式为2⁴×5⁹×7³×11×13，求因数个数</div>
-        <div class="answer">800</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">800</div>
+        </div>
         
         <div class="question">求480的因数个数</div>
-        <div class="answer">24</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">24</div>
+        </div>
         
         <div class="question">求360的因数个数</div>
-        <div class="answer">24</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">24</div>
+        </div>
     </div>
     
     <h3>2. 公因数与公倍数</h3>
@@ -528,14 +613,34 @@
     
     <div class="example">
         <div class="question">求18、24、36的最大公因数与12、30的最大公因数之和</div>
-        <div class="answer">12</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">12</div>
+        </div>
         
         <div class="question">求42、66的最大公因数与20、50、90的最大公因数之积</div>
-        <div class="answer">60</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">60</div>
+        </div>
         
         <div class="question">求36、84、90的最小公倍数与12、30的最小公倍数之差</div>
-        <div class="answer">1200</div>
+        <div class="answer-container">
+            <div class="answer-prompt">✨ 点击显示答案</div>
+            <div class="answer">1200</div>
+        </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const containers = document.querySelectorAll('.answer-container');
+        containers.forEach(container => {
+            container.addEventListener('click', function() {
+                this.classList.toggle('show-answer');
+            });
+        });
+    });
+</script>
 </body>
 </html>
